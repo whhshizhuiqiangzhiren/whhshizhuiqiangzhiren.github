@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>房源详情 - 贝壳找房</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- 顶部导航 -->
+  <nav class="top-nav">
+    <div class="top-nav-inner">
+      <div class="logo-area">
+        <div class="logo-icon">贝</div>
+        <span class="logo-text">贝壳找房</span>
+      </div>
+      <div class="nav-links">
+        <a href="index.html">二手房</a>
+        <a href="#">新房</a>
+        <a href="#">租房</a>
+        <a href="#">小区</a>
+        <a href="#">找房</a>
+      </div>
+      <div class="search-area">
+        <input type="text" placeholder="请输入小区名、商圈或地铁站开始找房">
+        <button class="search-btn"></button>
+      </div>
+      <div class="nav-right">
+        <a href="#">登录</a>
+        <a href="#">注册</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- 面包屑 -->
+  <div class="breadcrumb">
+    <a href="index.html">北京</a><span>&gt;</span><a href="index.html">二手房</a><span>&gt;</span>房源详情
+  </div>
+
+  <div class="detail-wrapper">
+    <a class="back-link" href="index.html">← 返回房源列表</a>
+
+    <div class="detail-main">
+      <!-- 左侧内容 -->
+      <div class="detail-left">
+        <!-- 图片 -->
+        <div class="detail-image-box">
+          <img id="detailImage" src="" alt="房源图片" style="width:100%;height:420px;object-fit:cover;display:block;">
+        </div>
+
+        <!-- 标题和价格 -->
+        <div class="detail-title-box">
+          <h1 class="detail-title" id="detailTitle"></h1>
+          <div class="detail-price-box">
+            <div class="detail-total" id="detailTotalPrice"></div>
+            <div class="detail-unit" id="detailUnitPrice"></div>
+          </div>
+        </div>
+
+        <!-- 房屋信息 -->
+        <div class="detail-info-box">
+          <h3>房屋信息</h3>
+          <table class="detail-info-table" id="detailInfoTable"></table>
+        </div>
+
+        <!-- 房源描述 -->
+        <div class="detail-desc-box">
+          <h3>房源介绍</h3>
+          <p id="detailDesc"></p>
+        </div>
+      </div>
+
+      <!-- 右侧边栏 -->
+      <div class="detail-right">
+        <div class="detail-sidebar-card">
+          <h3>联系经纪人</h3>
+          <div class="agent-card">
+            <div class="agent-avatar">👤</div>
+            <div>
+              <div class="agent-name">张经理</div>
+              <div class="agent-role">资深房产顾问</div>
+            </div>
+          </div>
+          <button class="btn-contact">在线咨询</button>
+          <button class="btn-phone">📞 400-100-8888</button>
+        </div>
+
+        <div class="detail-sidebar-card">
+          <h3>房源亮点</h3>
+          <div style="font-size:14px;color:#666;line-height:1.8;" id="detailHighlights"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 底部 -->
+  <footer class="footer">
+    <div>© 2026 贝壳找房模拟网站 · 仅供学习演示使用，数据来源于公开信息</div>
+  </footer>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      initDetail();
+
+      // 生成房源亮点
+      const urlParams = new URLSearchParams(window.location.search);
+      const id = parseInt(urlParams.get('id'));
+      const house = houseData.find(h => h.id === id);
+
+      if (house) {
+        const highlights = [];
+        if (house.orientation.includes('南')) highlights.push('朝南采光好');
+        if (house.orientation.includes('北')) highlights.push('南北通透');
+        if (house.description.includes('满五')) highlights.push('满五年税费少');
+        if (house.description.includes('精装修') || house.description.includes('精装')) highlights.push('精装修拎包入住');
+        if (house.description.includes('电梯')) highlights.push('电梯房出行方便');
+        if (parseInt(house.year) > 2010) highlights.push('次新房品质好');
+        if (house.floor.includes('中楼层')) highlights.push('中楼层视野好');
+
+        document.getElementById('detailHighlights').innerHTML = highlights.length > 0
+          ? highlights.map(h => `<div style="margin-bottom:8px;">✓ ${h}</div>`).join('')
+          : '<div>优质房源，欢迎咨询</div>';
+      }
+    });
+  </script>
+</body>
+</html>
